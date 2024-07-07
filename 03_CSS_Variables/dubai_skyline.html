@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Variables and JS</title>
+    <link rel="icon" href="./cityIcon.png" />
+  </head>
+  <body>
+    <h1>Update CSS variables with <span class="hl">JS</span></h1>
+
+    <div class="container">
+      <div class="controls">
+        <label for="spacing">Spacing:</label>
+        <input
+          id="spacing"
+          name="spacing"
+          type="range"
+          min="0"
+          max="100"
+          value="10"
+          data-sizing="px"
+        />
+
+        <label for="blur">Blur:</label>
+        <input
+          id="blur"
+          name="blur"
+          type="range"
+          min="0"
+          max="25"
+          value="0"
+          data-sizing="px"
+        />
+
+        <label for="theme">Theme</label>
+        <input type="color" name="theme" id="theme" value="#62c1e5" />
+      </div>
+
+      <img src="./dubai-skyline.jpeg" alt="" />
+    </div>
+
+    <style>
+      :root {
+        --spacing: 10px;
+        --blur: 0px;
+        --theme: #62c1e5;
+      }
+
+      html {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        width: 100%;
+        min-height: 100vh;
+        text-align: center;
+        background-color: #193549;
+        color: white;
+        font-family: "helvetica neue", sans-serif;
+        font-weight: 100;
+        /* font-size: 50px; */
+      }
+      /**Edit start**/
+      label {
+        display: inline-block;
+        margin: 0 5px;
+        font-size: 1.2em;
+      }
+
+      input {
+        width: 100px;
+        /* border: none; */
+        cursor: pointer;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      /**Edit end**/
+      h1 {
+        margin: 0;
+      }
+
+      .container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .controls {
+        margin: 10px;
+        padding: 20px;
+      }
+
+      .hl {
+        color: var(--theme);
+      }
+
+      img {
+        padding: var(--spacing);
+        filter: blur(var(--blur));
+        background-color: var(--theme);
+        width: 20rem;
+        height: auto;
+      }
+    </style>
+
+    <script>
+      const controls = document.querySelectorAll(".controls input");
+      // console.log(controls);
+
+      function handleUpdate() {
+        const suffix = this.dataset.sizing || "";
+        // console.log(sizing);
+        // console.log(this.name);
+        document.documentElement.style.setProperty(
+          `--${this.name}`,
+          this.value + suffix
+        );
+      }
+
+      controls.forEach((input) =>
+        input.addEventListener("change", handleUpdate)
+      );
+      controls.forEach((input) =>
+        input.addEventListener("mousemove", handleUpdate)
+      );
+    </script>
+  </body>
+</html>
